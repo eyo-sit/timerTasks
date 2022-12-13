@@ -27,6 +27,7 @@
 
 
     <script>
+        // Get the input field
         const input = document.getElementById('task-input')
         const form = document.querySelector('form')
 
@@ -40,7 +41,8 @@
             // Get the task from the input field
             const task = input.value
             const taskDisplay = document.getElementById('task-name')
-            debugger
+
+            //Set the placeholder div container to the task
             taskDisplay.textContent = task
 
             // Create a new date object that represents the current time
@@ -55,6 +57,50 @@
             // Start the timer
             timer.start()
         })
+        function addToList() {
+            // Get the input field
+            var input = document.getElementById("inputField");
+
+            //Create a new task container
+            var div = document.createElement("div");
+            div.className = 'task-container';
+
+            // Create the h1 element
+            var h1 = document.createElement('h1');
+
+            // Create the p element
+            var p = document.createElement('p');
+
+            // Create the span element
+            var span = document.createElement('span');
+
+            // Set the text content of the h1 element
+            h1.textContent = task;
+
+            // Set the text content of the span element
+            span.textContent = 'This is the span element';
+
+            // Append the span to the p element
+            p.appendChild(span);
+
+            // Append the h1 and p elements to the div
+            div.appendChild(h1);
+            div.appendChild(p);
+
+
+            // Create a new list item
+            var li = document.createElement("li");
+
+            // Set the text of the list item to the value of the input field
+            li.appendChild(div);
+
+            // Add the list item to the list
+            document.getElementById("task-list").appendChild(li);
+
+            // Clear the input field
+            input.value = "";
+        }
+
 
 
     </script>
