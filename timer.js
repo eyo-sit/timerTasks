@@ -1,7 +1,8 @@
 class Timer {
-    constructor(startTime, endTime) {
+    constructor(startTime, endTime, spanId) {
         this.startTime = startTime
         this.endTime = endTime
+        this.spanId = spanId
     }
 
     formatTimeRemaining(timeRemaining) {
@@ -49,7 +50,7 @@ class Timer {
         let timeRemainingString = this.formatTimeRemaining(timeRemaining);
 
         // Display the time remaining in the UI
-        const timerDisplay = document.getElementById('timer-display')
+        const timerDisplay = document.getElementById(this.spanId)
         timerDisplay.textContent = timeRemainingString
 
         // Update the timer display every second
@@ -60,7 +61,7 @@ class Timer {
             let timeRemainingString = this.formatTimeRemaining(timeRemaining);
 
             // Display the time remaining in the desired format
-            const timerDisplay = document.getElementById('timer-display')
+            const timerDisplay = document.getElementById(this.spanId)
             timerDisplay.textContent = timeRemainingString
         }, 1000)
     }

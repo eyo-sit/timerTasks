@@ -19,8 +19,8 @@
     <ul id="task-list">
         <li>
             <div class="task-container">
-                <h2 id="task-name"></h2>
-                <p>Time remaining: <span id="timer-display"></span></p>
+                <h2 class="task-name" id="task-name"></h2>
+                <p>Time remaining: <span id="task"></span></p>
             </div>
         </li>
     </ul>
@@ -31,9 +31,10 @@
         const input = document.getElementById('task-input')
         const form = document.querySelector('form')
 
+        // Create an array to store the tasks and timers
+        const tasks = []
         form.addEventListener('submit', e => {
-            // Create an array to store the tasks and timers
-            const tasks = []
+
 
             // Prevent the default behavior of the form submission
             e.preventDefault()
@@ -41,8 +42,8 @@
             // Get the task from the input field
             const task = input.value
             const taskDisplay = document.getElementById('task-name')
-
-            //Set the placeholder div container to the task
+            debugger
+            //Set the placeholder div container h1 to the task name
             taskDisplay.textContent = task
 
             // Create a new date object that represents the current time
@@ -52,39 +53,59 @@
             const endTime = new Date(startTime.getTime() + 2 * 24 * 60 * 60 * 1000)
 
             // Create a new timer using the start and end times
-            const timer = new Timer(startTime, endTime)
+            const timer = new Timer(startTime, endTime, 'task')
 
             // Start the timer
             timer.start()
+
+
+            const spanID = 'task' + toString(tasks.length);
+
+
+            addToList(task, spanID);
+
+            const taskTimer = new Timer(startTime, endTime, spanID)
+
+            taskTimer.start()
+            //Add the task and timer to the array of tasks
+            tasks.push(task, timer);
+
+            // Give the div element an id
+            //div.id = toString(tasks.length - 1);
+            input.value = ''
+
         })
-        function addToList() {
-            // Get the input field
-            var input = document.getElementById("inputField");
+        function addToList(task, spanID) {
 
             //Create a new task container
             var div = document.createElement("div");
             div.className = 'task-container';
 
             // Create the h1 element
-            var h1 = document.createElement('h1');
+            var h2 = document.createElement('h2');
+            h2.className = 'task-name';
 
             // Create the p element
             var p = document.createElement('p');
+
+            // Set the text content of teh p element
+            p.textContent = 'Time remaining: ';
 
             // Create the span element
             var span = document.createElement('span');
 
             // Set the text content of the h1 element
-            h1.textContent = task;
+            h2.textContent = task;
 
-            // Set the text content of the span element
-            span.textContent = 'This is the span element';
+
+
+            span.id = spanID;
 
             // Append the span to the p element
             p.appendChild(span);
 
             // Append the h1 and p elements to the div
-            div.appendChild(h1);
+            div.appendChild(h2);
             div.appendChild(p);
 
 
@@ -96,9 +117,6 @@
 
             // Add the list item to the list
             document.getElementById("task-list").appendChild(li);
-
-            // Clear the input field
-            input.value = "";
         }
 
 
