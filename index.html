@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Two-Day Timer</title>
+    <script src="timer.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <h1>Two-Day Timer</h1>
+    <p>Enter a task below to create a two-day timer:</p>
+    <form>
+        <input type="text" placeholder="Enter task here" id="task-input" />
+        <button type="submit">Start Timer</button>
+    </form>
+    <h2>Tasks</h2>
+    <ul id="task-list">
+        <li>
+            <div class="task-container">
+                <h2 id="task-name"></h2>
+                <p>Time remaining: <span id="timer-display"></span></p>
+            </div>
+        </li>
+    </ul>
+
+
+    <script>
+        const input = document.getElementById('task-input')
+        const form = document.querySelector('form')
+
+        form.addEventListener('submit', e => {
+            // Create an array to store the tasks and timers
+            const tasks = []
+
+            // Prevent the default behavior of the form submission
+            e.preventDefault()
+
+            // Get the task from the input field
+            const task = input.value
+            const taskDisplay = document.getElementById('task-name')
+            debugger
+            taskDisplay.textContent = task
+
+            // Create a new date object that represents the current time
+            const startTime = new Date()
+
+            // Calculate the end time by adding two days to the start time
+            const endTime = new Date(startTime.getTime() + 2 * 24 * 60 * 60 * 1000)
+
+            // Create a new timer using the start and end times
+            const timer = new Timer(startTime, endTime)
+
+            // Start the timer
+            timer.start()
+        })
+
+
+    </script>
+</body>
+
+</html>
