@@ -69,11 +69,12 @@ class Timer {
             let timeRemainingString = this.formatTimeRemaining(timeRemaining);
             // Display the time remaining in the desired format
             console.log(timeRemainingString.length)
-            if (timeRemainingString.length == 0) {
+            if (timeRemainingString.length == 0 || this.timeoutId == null) {
                 console.log(timeRemainingString)
                 const timerDisplay = document.getElementById(this.spanId + 'p')
                 timerDisplay.textContent = 'Timer expired'
                 console.log(`Timer has expired.`);
+                this.timeoutId == null
             } else if (this.timeoutId != null) {
                 console.log(timeRemainingString)
                 const timerDisplay = document.getElementById(this.spanId)
@@ -87,6 +88,10 @@ class Timer {
     stop() {
         clearInterval(this.intervalId);
         const timerDisplay = document.getElementById(this.spanId + 'p')
-        timerDisplay.textContent = 'Timer expired'
+        if (timerDisplay) {
+            timerDisplay.textContent = 'Timer expired'
+        }
+        clearTimeout(this.timeoutId)
+        this.timeoutId = null
     }
 }

@@ -25,11 +25,10 @@ form.addEventListener('submit', e => {
 
     let spanID = 'task' + tasks.length;
     console.log(spanID)
-    addToList(task, spanID);
 
     // Create a new timer using the start and end times
     const timer = new Timer(startTime, endTime, spanID)
-
+    addToList(task, spanID, timer);
 
 
     // Start the timer
@@ -64,7 +63,7 @@ form.addEventListener('submit', e => {
 
 
 
-function addToList(task, spanID) {
+function addToList(task, spanID, timer) {
 
     //Create a new task container
     var div = document.createElement("div");
@@ -112,14 +111,9 @@ function addToList(task, spanID) {
     // Set the text of the list item to the value of the input field
     li.appendChild(div);
     button.addEventListener('click', e => {
-        removeTask(li);
+        timer.stop()
+        li.parentNode.removeChild(li);
     });
     // Add the list item to the list
     document.getElementById("task-list").appendChild(li);
-}
-
-
-
-function removeTask(li) {
-    li.parentNode.removeChild(li);
 }
