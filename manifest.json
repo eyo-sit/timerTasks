@@ -1,0 +1,17 @@
+{
+    "name": "Task Timer",
+    "version": "1.0.0",
+    "description": "A simple task timer app built with Electron",
+    "main": "main.js",
+    "scripts": {
+        "start": "electron ."
+    },
+    "permissions": [
+        "notifications",
+        "audio-capture"
+    ],
+    "author": {
+        "name": "Eyo Sitota",
+        "email": "eyobed01@gmail.com"
+    }
+}

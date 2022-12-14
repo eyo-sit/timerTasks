@@ -5,123 +5,22 @@
     <meta charset="UTF-8">
     <title>Two-Day Timer</title>
     <script src="timer.js"></script>
+    <script src="timerManager.js"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
     <h1>Two-Day Timer</h1>
     <p>Enter a task below to create a two-day timer:</p>
-    <form>
+    <form id="task-form">
         <input type="text" placeholder="Enter task here" id="task-input" />
         <button type="submit">Start Timer</button>
     </form>
     <h2>Tasks</h2>
     <ul id="task-list">
-        <li>
-            <div class="task-container">
-                <h2 class="task-name" id="task-name"></h2>
-                <p>Time remaining: <span id="task"></span></p>
-            </div>
-        </li>
     </ul>
-
-
-    <script>
-        // Get the input field
-        const input = document.getElementById('task-input')
-        const form = document.querySelector('form')
-
-        // Create an array to store the tasks and timers
-        const tasks = []
-        form.addEventListener('submit', e => {
-
-
-            // Prevent the default behavior of the form submission
-            e.preventDefault()
-
-            // Get the task from the input field
-            const task = input.value
-            const taskDisplay = document.getElementById('task-name')
-            debugger
-            //Set the placeholder div container h1 to the task name
-            taskDisplay.textContent = task
-
-            // Create a new date object that represents the current time
-            const startTime = new Date()
-
-            // Calculate the end time by adding two days to the start time
-            const endTime = new Date(startTime.getTime() + 2 * 24 * 60 * 60 * 1000)
-
-            // Create a new timer using the start and end times
-            const timer = new Timer(startTime, endTime, 'task')
-
-            // Start the timer
-            timer.start()
-
-
-            const spanID = 'task' + toString(tasks.length);
-
-
-            addToList(task, spanID);
-
-            const taskTimer = new Timer(startTime, endTime, spanID)
-
-            taskTimer.start()
-            //Add the task and timer to the array of tasks
-            tasks.push(task, timer);
-
-            // Give the div element an id
-            //div.id = toString(tasks.length - 1);
-            input.value = ''
-
-        })
-        function addToList(task, spanID) {
-
-            //Create a new task container
-            var div = document.createElement("div");
-            div.className = 'task-container';
-
-            // Create the h1 element
-            var h2 = document.createElement('h2');
-            h2.className = 'task-name';
-
-            // Create the p element
-            var p = document.createElement('p');
-
-            // Set the text content of teh p element
-            p.textContent = 'Time remaining: ';
-
-            // Create the span element
-            var span = document.createElement('span');
-
-            // Set the text content of the h1 element
-            h2.textContent = task;
-
-
-
-            span.id = spanID;
-
-            // Append the span to the p element
-            p.appendChild(span);
-
-            // Append the h1 and p elements to the div
-            div.appendChild(h2);
-            div.appendChild(p);
-
-
-            // Create a new list item
-            var li = document.createElement("li");
-
-            // Set the text of the list item to the value of the input field
-            li.appendChild(div);
-
-            // Add the list item to the list
-            document.getElementById("task-list").appendChild(li);
-        }
-
-
-
-    </script>
+    <script src="formHandler.js"></script>
 </body>
+
 
 </html>

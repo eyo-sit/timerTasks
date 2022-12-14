@@ -3,6 +3,7 @@ class Timer {
         this.startTime = startTime
         this.endTime = endTime
         this.spanId = spanId
+        this.timeoutId = null
     }
 
     formatTimeRemaining(timeRemaining) {
@@ -53,16 +54,39 @@ class Timer {
         const timerDisplay = document.getElementById(this.spanId)
         timerDisplay.textContent = timeRemainingString
 
+        //Sets timeoutId to false once timer has expired
+        this.timeoutId = setTimeout(() => {
+            console.log(`Timer has expired.`);
+            this.timeoutId = null;
+            // Perform other tasks here, such as playing a sound or showing a notification.
+        }, this.endTime - new Date());
+
         // Update the timer display every second
-        setInterval(() => {
+        this.intervalId = setInterval(() => {
             // Calculate the new time remaining
             timeRemaining = this.endTime - new Date()
             //Format time remaining into desired string length
             let timeRemainingString = this.formatTimeRemaining(timeRemaining);
-
             // Display the time remaining in the desired format
-            const timerDisplay = document.getElementById(this.spanId)
-            timerDisplay.textContent = timeRemainingString
+            console.log(timeRemainingString.length)
+            if (timeRemainingString.length == 0) {
+                console.log(timeRemainingString)
+                const timerDisplay = document.getElementById(this.spanId + 'p')
+                timerDisplay.textContent = 'Timer expired'
+                console.log(`Timer has expired.`);
+            } else if (this.timeoutId != null) {
+                console.log(timeRemainingString)
+                const timerDisplay = document.getElementById(this.spanId)
+                timerDisplay.textContent = timeRemainingString
+            }
+
         }, 1000)
+    }
+
+    //Stop timer display from updating
+    stop() {
+        clearInterval(this.intervalId);
+        const timerDisplay = document.getElementById(this.spanId + 'p')
+        timerDisplay.textContent = 'Timer expired'
     }
 }
