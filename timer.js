@@ -1,7 +1,6 @@
 class Timer {
-    constructor(startTime, endTime, spanId) {
-        this.startTime = startTime
-        this.endTime = endTime
+    constructor(spanId, timeRemaining) {
+        this.timeRemaining = timeRemaining
         this.spanId = spanId
         this.timeoutId = null
     }
@@ -36,7 +35,7 @@ class Timer {
             timeRemainingString += `${minutes} minute `;
         }
 
-        if (seconds >= 1) {
+        if (seconds > 1) {
             timeRemainingString += `${seconds} seconds`;
         } else if (seconds == 1) {
             timeRemainingString += `${seconds} second`;
@@ -47,12 +46,43 @@ class Timer {
 
     start() {
         // Calculate the time remaining until the end time
-        let timeRemaining = this.endTime - this.startTime
-        let timeRemainingString = this.formatTimeRemaining(timeRemaining);
+        console.log(this.timeRemaining)
 
-        // Display the time remaining in the UI
+        let currentTime = new Date()
+
+        this.endTime = new Date(currentTime.getTime() + this.timeRemaining)
+
+        let timeRemainingString
+
         const timerDisplay = document.getElementById(this.spanId)
-        timerDisplay.textContent = timeRemainingString
+
+        const timerDisplayP = document.getElementById(this.spanId + 'p')
+
+
+        // Update the timer display every second
+        this.intervalId = setInterval(() => {
+            //Subtract a second from the timeRemaining
+            this.timeRemaining -= 1000
+
+            //Format time remaining into desired string length
+            timeRemainingString = this.formatTimeRemaining(this.timeRemaining);
+
+            if (timeRemainingString.length == 0 || this.timeoutId == null) {
+
+                //Update the p element
+                timerDisplayP.textContent = 'Timer expired'
+
+                console.log(`Timer has expired.`);
+
+                this.timeoutId == null
+            } else if (timeRemainingString.length != 0 || this.timeoutId != null) {
+
+                //Update the span element
+                //Display the time remaining in the desired format
+                timerDisplay.textContent = timeRemainingString
+            }
+
+        }, 1000)
 
         //Sets timeoutId to false once timer has expired
         this.timeoutId = setTimeout(() => {
@@ -60,38 +90,17 @@ class Timer {
             this.timeoutId = null;
             // Perform other tasks here, such as playing a sound or showing a notification.
         }, this.endTime - new Date());
-
-        // Update the timer display every second
-        this.intervalId = setInterval(() => {
-            // Calculate the new time remaining
-            timeRemaining = this.endTime - new Date()
-            //Format time remaining into desired string length
-            let timeRemainingString = this.formatTimeRemaining(timeRemaining);
-            // Display the time remaining in the desired format
-            console.log(timeRemainingString.length)
-            if (timeRemainingString.length == 0 || this.timeoutId == null) {
-                console.log(timeRemainingString)
-                const timerDisplay = document.getElementById(this.spanId + 'p')
-                timerDisplay.textContent = 'Timer expired'
-                console.log(`Timer has expired.`);
-                this.timeoutId == null
-            } else if (this.timeoutId != null) {
-                console.log(timeRemainingString)
-                const timerDisplay = document.getElementById(this.spanId)
-                timerDisplay.textContent = timeRemainingString
-            }
-
-        }, 1000)
     }
 
     //Stop timer display from updating
     stop() {
         clearInterval(this.intervalId);
         const timerDisplay = document.getElementById(this.spanId + 'p')
-        if (timerDisplay) {
-            timerDisplay.textContent = 'Timer expired'
-        }
         clearTimeout(this.timeoutId)
         this.timeoutId = null
+    }
+
+    pause() {
+
     }
 }

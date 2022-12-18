@@ -23,11 +23,16 @@ form.addEventListener('submit', e => {
     const endTime = new Date(startTime.getTime() + 10 * 1000)
     //const endTime = new Date(startTime.getTime() + 2 * 24 * 60 * 60 * 1000)
 
+    console.log(endTime)
+    console.log(startTime)
+    let timeRemaining = endTime - startTime
+    console.log(timeRemaining)
+
+
     let spanID = 'task' + tasks.length;
-    console.log(spanID)
 
     // Create a new timer using the start and end times
-    const timer = new Timer(startTime, endTime, spanID)
+    const timer = new Timer(spanID, timeRemaining)
     addToList(task, spanID, timer);
 
 
@@ -116,4 +121,18 @@ function addToList(task, spanID, timer) {
     });
     // Add the list item to the list
     document.getElementById("task-list").appendChild(li);
+    updateGridLayout()
+}
+
+function updateGridLayout() {
+    // Get the grid container element
+    var gridContainer = document.querySelector('#task-list');
+
+    // Get the current number of grid items
+    var gridItems = gridContainer.querySelectorAll('.task-container');
+    var numItems = gridItems.length;
+    if (numItems <= 4 || numItems == 0) {
+        // Update the grid template columns property to create a new column for the new item
+        gridContainer.style.gridTemplateColumns = `repeat(${numItems}, 1fr)`;
+    }
 }
