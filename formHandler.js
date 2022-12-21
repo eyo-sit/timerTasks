@@ -86,7 +86,7 @@ function addToList(task, spanID, timer) {
 
     // Create the span element
     var span = document.createElement('span');
-
+    span.innerText = timer.formatTimeRemaining(timer.timeRemaining)
     // Set the text content of the h1 element
     h2.textContent = task;
 
@@ -102,12 +102,18 @@ function addToList(task, spanID, timer) {
     button.className = 'close-button';
     button.innerHTML = '&times;'
 
+    var pauseButton = document.createElement("div");
+    pauseButton.className = 'pause-button';
+    // pauseButton.innerHTML = '&#x23F8;'
+
     div.appendChild(button);
 
     // Append the h1 and p elements to the div
     div.appendChild(h2);
     div.appendChild(p);
 
+    pauseButton.id = spanID + 'pause'
+    div.appendChild(pauseButton)
 
 
     // Create a new list item
@@ -118,6 +124,20 @@ function addToList(task, spanID, timer) {
     button.addEventListener('click', e => {
         timer.stop()
         li.parentNode.removeChild(li);
+    });
+
+    pauseButton.addEventListener('click', e => {
+        if (timer.status == 0) {
+            timer.pause()
+            // pauseButton.innerHTML = '&#x25B6;'
+            pauseButton.className = 'pause-button paused'
+
+        } else {
+            timer.start()
+            // pauseButton.innerHTML = '&#x23F8;'
+            pauseButton.className = 'pause-button'
+        }
+
     });
     // Add the list item to the list
     document.getElementById("task-list").appendChild(li);

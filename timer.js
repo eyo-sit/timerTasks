@@ -3,6 +3,9 @@ class Timer {
         this.timeRemaining = timeRemaining
         this.spanId = spanId
         this.timeoutId = null
+
+        //0 = running | 1 = paused | 2 = ended
+        this.status;
     }
 
     formatTimeRemaining(timeRemaining) {
@@ -45,6 +48,9 @@ class Timer {
     }
 
     start() {
+        this.status = 0
+
+
         // Calculate the time remaining until the end time
         console.log(this.timeRemaining)
 
@@ -67,14 +73,15 @@ class Timer {
             //Format time remaining into desired string length
             timeRemainingString = this.formatTimeRemaining(this.timeRemaining);
 
-            if (timeRemainingString.length == 0 || this.timeoutId == null) {
+            if (timeRemainingString.length == 0 || this.status == 2) {
 
                 //Update the p element
                 timerDisplayP.textContent = 'Timer expired'
 
                 console.log(`Timer has expired.`);
 
-                this.timeoutId == null
+                this.timeoutId = null
+                this.status = 2
             } else if (timeRemainingString.length != 0 || this.timeoutId != null) {
 
                 //Update the span element
@@ -95,12 +102,14 @@ class Timer {
     //Stop timer display from updating
     stop() {
         clearInterval(this.intervalId);
-        const timerDisplay = document.getElementById(this.spanId + 'p')
         clearTimeout(this.timeoutId)
         this.timeoutId = null
     }
 
     pause() {
-
+        this.status = 1
+        clearTimeout(this.timeoutId)
+        clearInterval(this.intervalId)
+        this.timeoutId = 1
     }
 }

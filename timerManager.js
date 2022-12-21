@@ -1,3 +1,5 @@
+
+
 class timerManager {
     constructor() {
         this.tasks = []
@@ -18,11 +20,11 @@ class timerManager {
                 // has been cleared. If it has, the timer is complete. Stop
                 // the timer and add it to the completedTimers array.
                 for (const taskTimer of this.activeTimers) {
-                    if (taskTimer.timer.timeoutId == null) {
+                    if (taskTimer.timer.status == 2) {
                         console.log(`The timer for "${taskTimer.task}" is complete.`);
                         //Stop timer display
                         taskTimer.timer.stop();
-                        this.alert(taskTimer.timer)
+                        this.alert(taskTimer)
                         this.activeTimers = this.activeTimers.filter(t => t !== taskTimer);
                         this.completedTimers.push(taskTimer);
                     } else {
@@ -36,10 +38,10 @@ class timerManager {
         }, 1000);
     }
 
-    alert(timer) {
+    alert(taskTimer) {
         // Get the child element
-        var child = document.getElementById(timer.spanId + 'p');
-        console.log(timer.spanId)
+        var child = document.getElementById(taskTimer.timer.spanId + 'p');
+        console.log(taskTimer.timer.spanId)
         // Get the parent of the child element
         var existing = child.parentElement;
 
@@ -50,11 +52,18 @@ class timerManager {
         existing.style.animationPlayState = 'running';
         child.style.animationPlayState = 'running';
 
-        // // Stop the animation after 5 seconds
-        // setTimeout(function () {
-        //     existing.style.animationPlayState = 'paused';
-        // }, 5000);
+        const NOTIFICATION_TITLE = taskTimer.task
+        const NOTIFICATION_BODY = 'Timer for ' + taskTimer.task + ' has completed. Click to see more.'
+        const CLICK_MESSAGE = 'Notification clicked!'
 
+        new Notification(NOTIFICATION_TITLE, { body: NOTIFICATION_BODY }, { silent: true })
+            .onclick = () => document.getElementById("output").innerText = CLICK_MESSAGE
+        const alertNoise = new Audio('simple.mp3')
+        alertNoise.play()
+
+        //Get spanIdp and get the parent and get the pause button element and remove it
+        let pauseButton = document.getElementById(taskTimer.timer.spanId + 'pause')
+        pauseButton.parentNode.removeChild(pauseButton)
     }
 
     stop() {

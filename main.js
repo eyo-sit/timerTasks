@@ -15,6 +15,7 @@ function createWindow() {
     // and load the index.html of the app.
     win.loadFile('index.html')
 }
-
+if (process.platform === 'win32') {
+    app.setAppUserModelId("DAYBYDAY");
+}
 app.whenReady().then(createWindow)
-
